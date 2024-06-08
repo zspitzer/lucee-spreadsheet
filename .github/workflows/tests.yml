@@ -8,7 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cfengine: [ "lucee@5.4be", "lucee@6.0be", "lucee@be", "adobe@2018", "adobe@2021", "adobe@2023" ]
+        cfengine: [ "lucee-light@5.4be", "lucee-zero@6.0be", "lucee-zero@be" ]
+        javaVersion: [ openjdk11, openjdk21 ]
+        exclude: 
+            - cfengine: lucee-light@5.4be
+              javaVersion: openjdk11
+            - luceeVersion: lucee-zero@6.0be
+              javaVersion: openjdk21
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -32,7 +38,7 @@ jobs:
       run: box install
 
     - name: Start a server
-      run: box server start cfengine=${{ matrix.cfengine }} port=8080
+      run: box server start cfengine=${{ matrix.cfengine }} port=8080 javaVersion=${{matrix.javaVersion}}
 
     - name: Run TestBox Tests
       run: box testbox run
