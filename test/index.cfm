@@ -1,10 +1,11 @@
 <cfscript>
 	paths = [ "root.test.suite" ];
 	try{
+		setting requesttimeout=10000;
 		testRunner = New testbox.system.TestBox();
 		result = testRunner.runRaw( bundles=paths );
 		reporter = testRunner.buildReporter( "text" );
-		report = reporter.runReport( result, testRunner );
+		report = reporter.runReport( results=result, testbox=testRunner, justReturn=true );
 	
 		failure = ( result.getTotalFail() + result.getTotalError() ) > 0;
 	

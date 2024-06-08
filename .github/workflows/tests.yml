@@ -11,6 +11,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: cfsimplicity/spreadsheet-cfml
+        path: src
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -26,12 +27,14 @@ jobs:
       run: sudo apt-get update && sudo apt-get install apt-transport-https commandbox
 
     - name: Install dependencies
-      run: box install
+      run: |
+        cd src
+        box install
     - name: installed webroot for matrix steps
       uses: actions/upload-artifact@v4
       with:
         name: webroot
-        path: ${{ github.workspace }}
+        path: ${{ github.workspace }}/src
     
   tests:
     runs-on: ubuntu-latest
