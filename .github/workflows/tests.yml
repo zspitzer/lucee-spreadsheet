@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cfengine: [ "lucee-light@5.4be", "lucee-zero@6.0be", "lucee-zero@be" ]
+        cfengine: [ "lucee-light@5.4be", "lucee-light@6.0be", "lucee-light@be" ]
         javaVersion: [ openjdk11, openjdk21 ]
         exclude: 
             - cfengine: lucee-light@5.4be
