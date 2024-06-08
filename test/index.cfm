@@ -8,13 +8,16 @@
 	
 		failure = ( result.getTotalFail() + result.getTotalError() ) > 0;
 	
-		report = "## #(failure?':x:':':heavy_check_mark:')# Lucee #server.lucee.version# / Java #server.java.version#" & chr(10) & report;
+		headline = "Lucee #server.lucee.version# / Java #server.java.version#";
 	
 		if ( structKeyExists( server.system.environment, "GITHUB_STEP_SUMMARY" ) ){
-			// fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, report );
+			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, "## #(failure?':x:':':heavy_check_mark:')#" & headline & chr(10) );
+			//fileAppend( server.system.environment.GITHUB_STEP_SUMMARY, report );
 		} else {
-			systemOutput( report, true );
+			systemOutput( headline, true );
 		}
+		systemOutput( report, true );
+
 		if ( failure ) {
 			error = "TestBox could not successfully execute all testcases: #result.getTotalFail()# tests failed; #result.getTotalError()# tests errored.";
 			if ( structKeyExists( server.system.environment, "GITHUB_STEP_SUMMARY" ) ){
