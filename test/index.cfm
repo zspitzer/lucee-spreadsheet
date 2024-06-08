@@ -11,7 +11,7 @@
 		report = "## #(failure?':x:':':heavy_check_mark:')# Lucee #server.lucee.version# / Java #server.java.version#" & chr(10) & report;
 	
 		if ( structKeyExists( server.system.environment, "GITHUB_STEP_SUMMARY" ) ){
-			fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, report );
+			// fileWrite( server.system.environment.GITHUB_STEP_SUMMARY, report );
 		} else {
 			systemOutput( report, true );
 		}
