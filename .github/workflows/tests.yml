@@ -5,7 +5,6 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -16,6 +15,7 @@ jobs:
               javaVersion: 21
             - luceeVersion: 6.0/snapshot/jar
               javaVersion: 21
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -43,5 +43,4 @@ jobs:
       with:
           webroot: ${{ github.workspace }}/test
           execute: /test/index.cfm
-          luceeVersion: ${{ env.luceeVersion }}
-          luceeVersionQuery: ${{ env.luceeVersionQuery }}      
+          luceeVersionQuery: ${{ matrix.luceeVersion }}      
