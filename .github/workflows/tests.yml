@@ -12,8 +12,6 @@ jobs:
         javaVersion: [ openjdk11, openjdk21 ]
         exclude: 
             - cfengine: lucee-light@5.4be
-              javaVersion: openjdk11
-            - cfengine: lucee-zero@6.0be
               javaVersion: openjdk21
     steps:
     - name: Checkout Repository
