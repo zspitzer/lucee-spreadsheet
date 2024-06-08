@@ -7,20 +7,23 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        cfengine: [ "lucee-light@5.4be", "lucee-light@6.0be", "lucee-light@be" ]
-        javaVersion: [ openjdk11, openjdk21 ]
+        luceeVersion: [ 5.4/snapshot/jar, 6.0/snapshot/jar, 6.1/snapshot/jar ]
+        javaVersion: [ 11, 21 ]
         exclude: 
-            - cfengine: lucee-light@5.4be
-              javaVersion: openjdk21
+            - luceeVersion: 5.4/snapshot/jar
+              javaVersion: 21
+            - luceeVersion: 6.0/snapshot/jar
+              javaVersion: 21
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: ${{matrix.javaVersion}}
         distribution: 'temurin'
 
     - name: Install the ortus security key
@@ -35,8 +38,10 @@ jobs:
     - name: Install dependencies
       run: box install
 
-    - name: Start a server
-      run: box server start cfengine=${{ matrix.cfengine }} port=8080 javaVersion=${{matrix.javaVersion}}
-
-    - name: Run TestBox Tests
-      run: box testbox run
+    - name: Run Preside CMS Test Suite
+      uses: lucee/script-runner@main
+      with:
+          webroot: ${{ github.workspace }}/test
+          execute: /test/index.cfm
+          luceeVersion: ${{ env.luceeVersion }}
+          luceeVersionQuery: ${{ env.luceeVersionQuery }}      
