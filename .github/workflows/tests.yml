@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ setup-lucee-spreadsheet ]
     strategy:
-      fail-fast: false      
+      fail-fast: false
       matrix:
         luceeVersion: [ 5.4/snapshot/jar, 6.0/snapshot/jar, 6.1/snapshot/jar ]
         javaVersion: [ 11, 21 ]
@@ -43,14 +43,14 @@ jobs:
             - luceeVersion: 5.4/snapshot/jar
               javaVersion: 21
             - luceeVersion: 6.0/snapshot/jar
-              javaVersion: 21    
+              javaVersion: 21
     steps:
      - name: Restore pre-prepared webroot
        uses: actions/download-artifact@v4
        with:
          name: webroot
          path: ${{ github.workspace }}
-     - name: Set up JDK ${{matrix.javaVersion}}  
+     - name: Set up JDK ${{matrix.javaVersion}}
        uses: actions/setup-java@v4
        with:
          java-version: ${{matrix.javaVersion}}
@@ -58,6 +58,6 @@ jobs:
      - name: Run Test Suite
        uses: lucee/script-runner@main
        with:
-          webroot: ${{ github.workspace }}/test
-          execute: /index.cfm?reporter=console
-          luceeVersionQuery: ${{ matrix.luceeVersion }}      
+          webroot: ${{ github.workspace }}/
+          execute: /test/index.cfm?reporter=console
+          luceeVersionQuery: ${{ matrix.luceeVersion }}
